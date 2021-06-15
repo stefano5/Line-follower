@@ -39,15 +39,23 @@ Per caricare su arduino due il software va prima scaricato il SO, utilizzare [qu
 ## Installazione PC
 È richiesta la libreria allegro4, verrà installata automaticamente.
 
+```
 $ cd ./[mio path]/Line-follower
+```
+```
 $ sudo chmod +x install_allegro.sh  install.sh
+```
+```
 $ ./install.sh
+```
 
 Se la libreria allegro è presente questo codice richiederà pochi istanti, altrimenti potrebbe richiedere qualche tempo per l'installazione.
 
 Quando l'installer avrà completato viene suggerito l'output da dare per eseguire il programma, ovvero:
 
+```
 $ sudo ./main /dev/ttyACM0
+```
 
 Il parametro è opzionale, se non gli è dato nessun parametro il parametro di default è sempre _/dev/ttyACM0_. È possibile modificare la scelta di default dall'[header file](firmwarePc/mainFunction/headerFile.h)
 
