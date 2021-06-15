@@ -15,5 +15,5 @@ if [ -f /usr/include/allegro.h ]; then
 
     echo "To run: sudo ./main"
 else 
-    echo "Allegro not found, please try: \"sudo apt install liballegr4*\""
+    ./install_allegro.sh && gcc -Wall -Werror firmwarePc/main.c -lpthread -lm -lrt -lalleg -o firmwarePc/main && ln -s $PWD/firmwarePc/main $PWD/
 fi
