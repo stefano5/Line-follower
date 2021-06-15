@@ -18,13 +18,16 @@ Questo software gestisce la comunicazione seriale con il rover. Utilizza una GUI
   Scelta della modalità (modalità: inseguimento di percorso o manuale da tastierino numerico)
   Tasti vari
   
-Una descrizione esaustiva sul codice è riportata sulla [relazione condivisa](Line-follower/Report_ita.pdf).
+Una descrizione esaustiva sul codice è riportata sulla [relazione condivisa](Report_ita.pdf).
 
 ## Firmware arduino
 Sono presenti due file, uno per la gestione dei motori e l'altro per la gestione dei task.
 
 Si è usato il sistema operativo [real time ARte](http://arte.retis.santannapisa.it/) scritto per arduino due.
 Per caricare il firmware su arduino è possibile seguire [questa guida](http://arte.retis.santannapisa.it/getting_started.html).
+
+La gestione dell'inseguimento della traiettoria è affidata ad uno specifico task. Il controllo utilizza dei sensori infrarossi per orientarsi.
+Tuttavia il controllo qui sviluppato non è performante e per niente smooth. Lo scopo del progetto non era infatti la sua perfetta messa a punto. È però perfettamente in grado di inseguire un percorso, ed è stato scritto per essere intrinsecamente _fault tollerant_. 
 
 Il rover utilizzato integra un ponte H per il controllo dei motori DC, il firmware di controllo dei motori si interfaccia quindi a lui.
 
@@ -46,7 +49,7 @@ Quando l'installer avrà completato viene suggerito l'output da dare per eseguir
 
 $ sudo ./main /dev/ttyACM0
 
-Il parametro è opzionale, se non gli è dato nessun parametro il parametro di default è sempre _/dev/ttyACM0_. È possibile modificare la scelta di default dall'[header file](Line-follower/firmwarePc/mainFunction/headerFile.h)
+Il parametro è opzionale, se non gli è dato nessun parametro il parametro di default è sempre _/dev/ttyACM0_. È possibile modificare la scelta di default dall'[header file](headerFile.h)
 
 Sono richiesti i permessi di SuperUser perchè è utilizzato uno scheduler diverso da quello di default.
 
