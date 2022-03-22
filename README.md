@@ -1,65 +1,58 @@
-# Line-follower con Arduino due
+# Line-follower with Arduino due
 
-Vedi anche: https://create.arduino.cc/projecthub/stefano_maugeri/autonomous-line-follower-with-seeed-shield-bot-1-2-and-arte-4faf68?ref=search&ref_id=line%20follower&offset=14
+Arduino code: https://create.arduino.cc/projecthub/stefano_maugeri/autonomous-line-follower-with-seeed-shield-bot-1-2-and-arte-4faf68?ref=search&ref_id=line%20follower&offset=14
 
-Questo progetto è stato richiesto per un corso universitario. 
-Lo scopo era quello di controllare un rover tramite seriale, gestendo task periodici real time e variabili condivise.
+This was an universitary course project.
+The aim was to control a little rover via serial, but also to allow it following an unknown path. In order to do this, I worked on periodic tasks, shared variables, motor control (rover uses H-bridges).
 
-Si ha quindi del codice che deve essere eseguito da un pc linux based, e un altro programma scritto ad hoc per un arduino due.
+Two softwares has been developed, the first one is a real time application linux based, the second one is an arduino scketch.
 
-Sono quindi presenti due cartelle che contengono i relativi firmware.
 
-## Firmware PC
-Qui sono presenti i sorgenti da compilare.
-Questo software gestisce la comunicazione seriale con il rover. Utilizza una GUI (scelta di progetto) su cui sono mostrate le seguenti informazioni:
-  Comportamento dei motori (direzione di rotazione)
-  Stima della traiettoria eseguita (real time)
-  Scelta della velocità di avanzamento
-  Scelta della modalità (modalità: inseguimento di percorso o manuale da tastierino numerico)
-  Tasti vari
-  
-Una descrizione esaustiva sul codice è riportata sulla [relazione condivisa](Report_ita.pdf).
+## PC firmware
+This software takes care of the communication between the pc and the rover via serial communication.
+It also has a GUI where the following information are displayed:
+  direction of travel of the vehicle
+  estimation of the vehicle trajectory
+  controlling of the forward velocity
+  choose of the operation mode (manual control or autonomous line follower)
 
-## Firmware arduino
-Sono presenti due file, uno per la gestione dei motori e l'altro per la gestione dei task.
+This software uses the pthread library to handle concurrent tasks.
 
-Si è usato il sistema operativo [real time ARte](http://arte.retis.santannapisa.it/) scritto per arduino due.
-Per caricare il firmware su arduino è possibile seguire [questa guida](http://arte.retis.santannapisa.it/getting_started.html).
+There is a summary report: [report (ITA)](Report_ita.pdf).
 
-La gestione dell'inseguimento della traiettoria è affidata ad uno specifico task. Il controllo utilizza dei sensori infrarossi per orientarsi.
-Tuttavia il controllo qui sviluppato non è performante e per niente smooth. Lo scopo del progetto non era infatti la sua perfetta messa a punto. È però perfettamente in grado di inseguire un percorso, ed è stato scritto per essere intrinsecamente _fault tollerant_. 
 
-Il rover utilizzato integra un ponte H per il controllo dei motori DC, il firmware di controllo dei motori si interfaccia quindi a lui.
+## Arduino firmware
+This firware takes care of the low level motor control and the serial communication.
 
-Ulteriori informazioni sono disponibili [qui](Line-follower/Report_ita.pdf).
+[Real time ARte](http://arte.retis.santannapisa.it/) was used to create and manage tasks on arduino due. Three tasks has been developed on arduino.
 
-## Installazione arduino
-Per caricare su arduino due il software va prima scaricato il SO, utilizzare [questa guida](http://arte.retis.santannapisa.it/getting_started.html). 
 
-## Installazione PC
-È richiesta la libreria allegro4, verrà installata automaticamente.
+## Arduino installation
+Follow [this](http://arte.retis.santannapisa.it/getting_started.html) to install the required library. ARTe is an extension to the Arduino framework that supports multitasking and real-time preemptive scheduling.
+
+## PC installation
+allegro4 is required, install it:
 
 ```
-$ cd ./[mio path]/Line-follower
+$ cd ./[my path]/Line-follower
 ```
 ```
-$ sudo chmod +x install_allegro.sh  install.sh
+$ sudo chmod +x install_allegro.sh install.sh
 ```
 ```
 $ ./install.sh
 ```
 
-Se la libreria allegro è presente questo codice richiederà pochi istanti, altrimenti potrebbe richiedere qualche tempo per l'installazione.
-
-Quando l'installer avrà completato viene suggerito l'output da dare per eseguire il programma, ovvero:
+This script will install all the required dependencies and it will build the pc application. 
+When the procedure ends, use this command to run the application:
 
 ```
 $ sudo ./main /dev/ttyACM0
 ```
 
-Il parametro è opzionale, se non gli è dato nessun parametro il parametro di default è sempre _/dev/ttyACM0_. È possibile modificare la scelta di default dall'[header file](firmwarePc/mainFunction/headerFile.h)
+You may need to change the port!
 
-Sono richiesti i permessi di SuperUser perchè è utilizzato uno scheduler diverso da quello di default.
+_sudo_ is nedeed because the application will use a different scheduler than the default linux scheduler.
 
 
 
